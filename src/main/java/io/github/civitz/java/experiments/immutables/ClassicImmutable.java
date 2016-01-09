@@ -6,9 +6,9 @@ package io.github.civitz.java.experiments.immutables;
  * Nothing new here...
  */
 public class ClassicImmutable {
-	private final String name;
+	private final String name; // String is an immutable class
 	private final String address;
-	private final int age;
+	private final int age; // primitives are immutable
 	
 	// This could be public
 	private ClassicImmutable(String name, String address, int age) {

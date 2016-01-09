@@ -52,29 +52,38 @@ public class MandatoryAttributes {
 		return new Builder();
 	}
 
-	// The first interface forces you to enter the name;
-	// then it chains to a second interface
-	// no chances to obtain an instance of the real object here
+	/**
+	 * The first interface forces you to enter the name; then it chains to a
+	 * second interface.
+	 * 
+	 * No chances to obtain an instance of the real object here
+	 */
 	public interface MandatoryAttributes_name {
 		MandatoryAttributes_address withName(String name);
 	}
 
-	// The second interface forces you to enter address, then leads to the
-	// optional part
-	// still no chances to obtain an object
+	/**
+	 * The second interface forces you to enter address, then leads to the
+	 * optional part
+	 * 
+	 * still no chances to obtain an object
+	 */
 	public interface MandatoryAttributes_address {
 		MandatoryAttributes_optional withAddress(String address);
 	}
 
-	// this interface contains all the optional setter and the build() method.
-	// you can call build() immediately, or fill the needed fields with the
-	// setter methods.
+	/**
+	 * This interface contains all the optional setter and the build() method.
+	 * 
+	 * You can call build() immediately, or fill the needed fields with the
+	 * setter methods.
+	 */
 	public interface MandatoryAttributes_optional {
 		MandatoryAttributes_optional withAge(Integer age);
 
 		MandatoryAttributes_optional withGame(String game);
 
-		// get the real object
+		/** Get the real object*/
 		MandatoryAttributes build();
 	}
 
