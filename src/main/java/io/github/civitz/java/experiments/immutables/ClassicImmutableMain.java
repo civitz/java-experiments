@@ -5,6 +5,7 @@ import io.github.civitz.java.experiments.immutables.ClassicImmutable.Builder;
 public class ClassicImmutableMain {
 
 	public static void main(String[] args) {
+		// a builder of type ClassicImmutable.Builder
 		final Builder builder = ClassicImmutable.create();
 		builder.withName("John");
 		builder.withAddress("Sesame street");

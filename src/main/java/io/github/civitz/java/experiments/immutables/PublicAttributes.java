@@ -11,6 +11,7 @@ public class PublicAttributes {
 	public final String address;
 	public final int age;
 	
+	// This could be public
 	private PublicAttributes(String name, String address, int age) {
 		this.name = name;
 		this.address = address;
@@ -27,6 +28,7 @@ public class PublicAttributes {
 	}
 	
 	public static class Builder{
+		// we can specify default values for attributes
 		private String name;
 		private String address;
 		private int age;

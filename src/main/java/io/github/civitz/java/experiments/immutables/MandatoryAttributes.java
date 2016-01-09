@@ -57,7 +57,7 @@ public class MandatoryAttributes {
 		MandatoryAttributes_address withName(String name);
 	}
 
-	// the second interface forces you to enter address, then leads to the
+	// The second interface forces you to enter address, then leads to the
 	// optional part
 	// still no chances to obtain an object
 	public interface MandatoryAttributes_address {
@@ -76,12 +76,17 @@ public class MandatoryAttributes {
 		MandatoryAttributes build();
 	}
 
-	/*
+	/**
+	 * Builder for MandatoryAttributes class
+	 * <p>
 	 * The real builder implements all those interfaces at once. The only thing
 	 * that forces the programmer to fill the attributes in the correct order,
 	 * while respecting mandatory fields, is the interface chain. Note that this
 	 * time the builder concrete class can be private, since we already share
 	 * the interfaces as public.
+	 * <p>
+	 * Also worth noting: interfaces aside, this builder looks no different than
+	 * classic builder classes.
 	 */
 	private static class Builder
 			implements MandatoryAttributes_address, MandatoryAttributes_name, MandatoryAttributes_optional {

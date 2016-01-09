@@ -10,6 +10,7 @@ public class ClassicImmutable {
 	private final String address;
 	private final int age;
 	
+	// This could be public
 	private ClassicImmutable(String name, String address, int age) {
 		this.name = name;
 		this.address = address;
@@ -38,6 +39,7 @@ public class ClassicImmutable {
 	}
 	
 	public static class Builder{
+		// we can specify default values for attributes
 		private String name;
 		private String address;
 		private int age;
