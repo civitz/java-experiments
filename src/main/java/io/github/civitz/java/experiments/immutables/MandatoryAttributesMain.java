@@ -16,13 +16,13 @@ public class MandatoryAttributesMain {
 		thirdBuilder.withGame("Zelda");
 		MandatoryAttributes bc3 = thirdBuilder.build();
 		
-		System.out.println(bc1.getName()); // John
 		System.out.println(bc1); 
-		
-		System.out.println(bc2.getName()); // John
+//		MandatoryAttributes [name=John, address=Sesame Street, age=Optional.empty, game=Optional.empty]
+
 		System.out.println(bc2); 
+//		MandatoryAttributes [name=John, address=Sesame Street, age=Optional[5], game=Optional.empty]
 		
-		System.out.println(bc3.getName()); // John
 		System.out.println(bc3); 
+//		MandatoryAttributes [name=John, address=Sesame Street, age=Optional[5], game=Optional[Zelda]]
 	}
 }

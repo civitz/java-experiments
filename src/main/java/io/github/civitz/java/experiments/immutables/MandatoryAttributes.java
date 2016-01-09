@@ -1,5 +1,7 @@
 package io.github.civitz.java.experiments.immutables;
 
+import java.util.Optional;
+
 /**
  * An immutable class that has a constrained builder.
  * <p>
@@ -10,10 +12,10 @@ package io.github.civitz.java.experiments.immutables;
 public class MandatoryAttributes {
 	private final String name;
 	private final String address;
-	private final int age;
-	private final String game;
+	private final Optional<Integer> age;
+	private final Optional<String> game;
 
-	private MandatoryAttributes(String name, String address, int age, String game) {
+	private MandatoryAttributes(String name, String address, Optional<Integer> age, Optional<String> game) {
 		this.name = name;
 		this.address = address;
 		this.age = age;
@@ -28,11 +30,11 @@ public class MandatoryAttributes {
 		return address;
 	}
 
-	public int getAge() {
+	public Optional<Integer> getAge() {
 		return age;
 	}
 
-	public String getGame() {
+	public Optional<String> getGame() {
 		return game;
 	}
 
@@ -68,7 +70,7 @@ public class MandatoryAttributes {
 	// you can call build() immediately, or fill the needed fields with the
 	// setter methods.
 	public interface MandatoryAttributes_optional {
-		MandatoryAttributes_optional withAge(int age);
+		MandatoryAttributes_optional withAge(Integer age);
 
 		MandatoryAttributes_optional withGame(String game);
 
@@ -93,21 +95,21 @@ public class MandatoryAttributes {
 
 		private String name;
 		private String address;
-		private int age = 0;
-		private String game = null;
+		private Optional<Integer> age = Optional.empty();
+		private Optional<String> game = Optional.empty();
 
 		private Builder() {
 		}
 
 		@Override // from MandatoryAttributes_optional
-		public MandatoryAttributes_optional withAge(int age) {
-			this.age = age;
+		public MandatoryAttributes_optional withAge(Integer age) {
+			this.age = Optional.ofNullable(age);
 			return this;
 		}
 
 		@Override // from MandatoryAttributes_optional
 		public MandatoryAttributes_optional withGame(String game) {
-			this.game = game;
+			this.game = Optional.ofNullable(game);
 			return this;
 		}
 
