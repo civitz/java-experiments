@@ -7,7 +7,7 @@ import org.immutables.value.Value;
 @Value.Immutable
 @Value.Style(typeImmutable = "*")
 public abstract class AbstractCash {
-
+	@Value.Parameter
 	public abstract int getAmount();
 	
 	public Optional<Cash> minus(int amount) {

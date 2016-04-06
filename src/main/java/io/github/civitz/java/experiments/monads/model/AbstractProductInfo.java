@@ -5,6 +5,8 @@ import org.immutables.value.Value;
 @Value.Immutable
 @Value.Style(typeImmutable = "*")
 public interface AbstractProductInfo {
+	@Value.Parameter
 	AbstractProduct getProduct();
-	Cash getCost();
+	@Value.Parameter
+	AbstractCash getCost();
 }
