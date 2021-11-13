@@ -57,7 +57,7 @@ public class TemplatersBenchmark {
     @Fork(value = 1, warmups = 2)
     @OutputTimeUnit(TimeUnit.MICROSECONDS)
     @Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-    @Measurement(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
+    @Measurement(iterations = 2, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
     public void _100_args_allInTemplate_naiveRegex(AllMatched100 torender, Blackhole blackhole) {
         blackhole.consume(Templaters.naiveRegexReplace(torender.template, torender.values));
     }
@@ -67,7 +67,7 @@ public class TemplatersBenchmark {
     @Fork(value = 1, warmups = 2)
     @OutputTimeUnit(TimeUnit.MICROSECONDS)
     @Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-    @Measurement(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
+    @Measurement(iterations = 2, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
     public void _100_args_allInTemplate_bigText_naiveRegex(AllMatched100BigText torender, Blackhole blackhole) {
         blackhole.consume(Templaters.naiveRegexReplace(torender.template, torender.values));
     }
@@ -77,7 +77,7 @@ public class TemplatersBenchmark {
     @Fork(value = 1, warmups = 2)
     @OutputTimeUnit(TimeUnit.MICROSECONDS)
     @Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-    @Measurement(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
+    @Measurement(iterations = 2, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
     public void _100_args_someInTemplate_bigText_naiveRegex(LittleMatched100BigText torender, Blackhole blackhole) {
         blackhole.consume(Templaters.naiveRegexReplace(torender.template, torender.values));
     }
@@ -87,7 +87,7 @@ public class TemplatersBenchmark {
     @Fork(value = 1, warmups = 2)
     @OutputTimeUnit(TimeUnit.MICROSECONDS)
     @Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-    @Measurement(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
+    @Measurement(iterations = 2, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
     public void _100_args_allInTemplate_scrolling(AllMatched100 torender, Blackhole blackhole) {
         blackhole.consume(Templaters.scrolling(torender.template, torender.values));
     }
@@ -97,7 +97,7 @@ public class TemplatersBenchmark {
     @Fork(value = 1, warmups = 2)
     @OutputTimeUnit(TimeUnit.MICROSECONDS)
     @Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-    @Measurement(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
+    @Measurement(iterations = 2, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
     public void _100_args_allInTemplate_bigText_scrolling(AllMatched100BigText torender, Blackhole blackhole) {
         blackhole.consume(Templaters.scrolling(torender.template, torender.values));
     }
@@ -107,9 +107,39 @@ public class TemplatersBenchmark {
     @Fork(value = 1, warmups = 2)
     @OutputTimeUnit(TimeUnit.MICROSECONDS)
     @Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-    @Measurement(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
+    @Measurement(iterations = 2, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
     public void _100_args_someInTemplate_bigText_scrolling(LittleMatched100BigText torender, Blackhole blackhole) {
         blackhole.consume(Templaters.scrolling(torender.template, torender.values));
+    }
+
+    @Benchmark
+    @BenchmarkMode({Mode.AverageTime})
+    @Fork(value = 1, warmups = 2)
+    @OutputTimeUnit(TimeUnit.MICROSECONDS)
+    @Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
+    @Measurement(iterations = 2, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
+    public void _100_args_allInTemplate_buffered(AllMatched100 torender, Blackhole blackhole) {
+        blackhole.consume(Templaters.buffered(torender.template, torender.values));
+    }
+
+    @Benchmark
+    @BenchmarkMode({Mode.AverageTime})
+    @Fork(value = 1, warmups = 2)
+    @OutputTimeUnit(TimeUnit.MICROSECONDS)
+    @Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
+    @Measurement(iterations = 2, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
+    public void _100_args_allInTemplate_bigText_buffered(AllMatched100BigText torender, Blackhole blackhole) {
+        blackhole.consume(Templaters.buffered(torender.template, torender.values));
+    }
+
+    @Benchmark
+    @BenchmarkMode({Mode.AverageTime})
+    @Fork(value = 1, warmups = 2)
+    @OutputTimeUnit(TimeUnit.MICROSECONDS)
+    @Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
+    @Measurement(iterations = 2, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
+    public void _100_args_someInTemplate_bigText_buffered(LittleMatched100BigText torender, Blackhole blackhole) {
+        blackhole.consume(Templaters.buffered(torender.template, torender.values));
     }
 
     public static void main(String[] args) throws Exception {
