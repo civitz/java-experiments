@@ -8,7 +8,6 @@ import io.vavr.collection.Traversable;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
 import org.openjdk.jmh.profile.GCProfiler;
-import org.openjdk.jmh.profile.StackProfiler;
 import org.openjdk.jmh.results.format.ResultFormatType;
 import org.openjdk.jmh.runner.Runner;
 import org.openjdk.jmh.runner.options.OptionsBuilder;
@@ -18,12 +17,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
-import java.time.chrono.IsoChronology;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.ResolverStyle;
 import java.time.temporal.ChronoField;
-import java.time.temporal.TemporalField;
 import java.util.concurrent.TimeUnit;
 
 
@@ -166,11 +162,8 @@ public class TemplateRendererBenchmark {
                 .include(TemplateRendererBenchmark.class.getSimpleName())
                 .shouldDoGC(true)
                 .resultFormat(ResultFormatType.CSV)
-//                .result("./benchmark-result/" + System.currentTimeMillis() + ".csv")
                 .result(result)
-                .addProfiler(StackProfiler.class)
                 .addProfiler(GCProfiler.class)
-                .jvmArgsAppend("-Djmh.stack.period=1")
                 .warmupIterations(5)
                 .warmupTime(TimeValue.seconds(2L))
                 .measurementIterations(3)
@@ -181,6 +174,5 @@ public class TemplateRendererBenchmark {
                 .build();
 
         new Runner(opt).run();
-//        org.openjdk.jmh.Main.main(args);
     }
 }
