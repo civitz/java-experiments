@@ -11,7 +11,12 @@ import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.*;
 
-public class TemplatersTest {
+public class TemplateRenderersTest {
+
+    static abstract class Renderer{
+        abstract String render(String template, Map<String, String> values);
+    }
+
     static Renderer renderer(Function2<String, Map<String, String>, String> f, String name){
         return new Renderer() {
             @Override
@@ -25,43 +30,41 @@ public class TemplatersTest {
             }
         };
     }
-    static abstract class Renderer{
-        abstract String render(String template, Map<String, String> values);
-    }
-    private static Stream<Arguments> templaters() {
+
+    private static Stream<Arguments> renderers() {
         return Stream.of(
-                Arguments.of(renderer(Templaters::naiveRegexReplace, "naive")),
-                Arguments.of(renderer(Templaters::scrolling, "scrolling")),
-                Arguments.of(renderer(Templaters::buffered, "buffered"))
+                Arguments.of(renderer(TemplateRenderers::naiveRegexReplace, "naive")),
+                Arguments.of(renderer(TemplateRenderers::scrolling, "scrolling")),
+                Arguments.of(renderer(TemplateRenderers::bufferedScrolling, "bufferedScrolling"))
         );
     }
 
     @ParameterizedTest
-    @MethodSource("templaters")
+    @MethodSource("renderers")
     public void shouldRenderSimpleTemplate(Renderer templater) {
-        assertThat(templater.render("[ciao] lol", HashMap.of("ciao", "miao")))
-                .isEqualTo("miao lol");
+        assertThat(templater.render("[salutation] world", HashMap.of("salutation", "hello")))
+                .isEqualTo("hello world");
     }
 
     @ParameterizedTest
-    @MethodSource("templaters")
+    @MethodSource("renderers")
     public void shouldRenderTemplateWithMoreValuesAndSomeUnmatchedValuesInTemplate(Renderer templater) {
-        assertThat(templater.render("[ciao] [mondo ] lol [qualcosa]", HashMap.of("ciao", "miao", "mondo", "brrr")))
-                .isEqualTo("miao brrr lol [qualcosa]");
+        assertThat(templater.render("[salutation] [adjective ] world[ending]", HashMap.of("salutation", "hello", "adjective", "dear")))
+                .isEqualTo("hello dear world[ending]");
     }
 
 
     @ParameterizedTest
-    @MethodSource("templaters")
+    @MethodSource("renderers")
     public void shouldRenderTemplateWithMoreValuesAndSomeExtraValues(Renderer templater) {
-        assertThat(templater.render("[ciao] lol", HashMap.of("ciao", "miao", "mondo", "brrr")))
-                .isEqualTo("miao lol");
+        assertThat(templater.render("[salutation] world", HashMap.of("salutation", "hello", "adjective", "dear")))
+                .isEqualTo("hello world");
     }
 
     @ParameterizedTest
-    @MethodSource("templaters")
+    @MethodSource("renderers")
     public void shouldRenderBadTemplate(Renderer templater) {
-        assertThat(templater.render("[c[c[ciao] lol", HashMap.of("ciao", "miao")))
-                .isEqualTo("[c[cmiao lol");
+        assertThat(templater.render("[s[s[salutation]] world", HashMap.of("salutation", "hello")))
+                .isEqualTo("[s[shello] world");
     }
 }
