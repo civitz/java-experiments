@@ -7,8 +7,25 @@ import io.vavr.collection.Stream;
 import io.vavr.collection.Traversable;
 import org.openjdk.jmh.annotations.*;
 import org.openjdk.jmh.infra.Blackhole;
+import org.openjdk.jmh.profile.GCProfiler;
+import org.openjdk.jmh.profile.StackProfiler;
+import org.openjdk.jmh.results.format.ResultFormatType;
+import org.openjdk.jmh.runner.Runner;
+import org.openjdk.jmh.runner.options.OptionsBuilder;
+import org.openjdk.jmh.runner.options.TimeValue;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.chrono.IsoChronology;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.ResolverStyle;
+import java.time.temporal.ChronoField;
+import java.time.temporal.TemporalField;
 import java.util.concurrent.TimeUnit;
+
 
 public class TemplateRendererBenchmark {
     @State(Scope.Benchmark)
@@ -73,126 +90,97 @@ public class TemplateRendererBenchmark {
     }
 
     @Benchmark
-    @BenchmarkMode({Mode.AverageTime})
-//    @Fork(value = 1, warmups = 2)
-    @OutputTimeUnit(TimeUnit.MICROSECONDS)
-//    @Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-//    @Measurement(iterations = 2, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
     public void _10_args_averageCase_naiveRegex(AllMatched10AverageText torender, Blackhole blackhole) {
         blackhole.consume(TemplateRenderers.naiveRegexReplace(torender.template, torender.values));
     }
 
     @Benchmark
-    @BenchmarkMode({Mode.AverageTime})
-//    @Fork(value = 1, warmups = 2)
-    @OutputTimeUnit(TimeUnit.MICROSECONDS)
-//    @Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-//    @Measurement(iterations = 2, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
     public void _100_args_allInTemplate_naiveRegex(AllMatched100 torender, Blackhole blackhole) {
         blackhole.consume(TemplateRenderers.naiveRegexReplace(torender.template, torender.values));
     }
 
     @Benchmark
-    @BenchmarkMode({Mode.AverageTime})
-//    @Fork(value = 1, warmups = 2)
-    @OutputTimeUnit(TimeUnit.MICROSECONDS)
-//    @Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-//    @Measurement(iterations = 2, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
     public void _100_args_allInTemplate_bigText_naiveRegex(AllMatched100BigText torender, Blackhole blackhole) {
         blackhole.consume(TemplateRenderers.naiveRegexReplace(torender.template, torender.values));
     }
 
     @Benchmark
-    @BenchmarkMode({Mode.AverageTime})
-//    @Fork(value = 1, warmups = 2)
-    @OutputTimeUnit(TimeUnit.MICROSECONDS)
-//    @Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-//    @Measurement(iterations = 2, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
     public void _100_args_someInTemplate_bigText_naiveRegex(LittleMatched100BigText torender, Blackhole blackhole) {
         blackhole.consume(TemplateRenderers.naiveRegexReplace(torender.template, torender.values));
     }
 
     @Benchmark
-    @BenchmarkMode({Mode.AverageTime})
-//    @Fork(value = 1, warmups = 2)
-    @OutputTimeUnit(TimeUnit.MICROSECONDS)
-//    @Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-//    @Measurement(iterations = 2, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
     public void _10_args_averageCase_scrolling(AllMatched10AverageText torender, Blackhole blackhole) {
         blackhole.consume(TemplateRenderers.scrolling(torender.template, torender.values));
     }
 
     @Benchmark
-    @BenchmarkMode({Mode.AverageTime})
-//    @Fork(value = 1, warmups = 2)
-    @OutputTimeUnit(TimeUnit.MICROSECONDS)
-//    @Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-//    @Measurement(iterations = 2, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
     public void _100_args_allInTemplate_scrolling(AllMatched100 torender, Blackhole blackhole) {
         blackhole.consume(TemplateRenderers.scrolling(torender.template, torender.values));
     }
 
     @Benchmark
-    @BenchmarkMode({Mode.AverageTime})
-//    @Fork(value = 1, warmups = 2)
-    @OutputTimeUnit(TimeUnit.MICROSECONDS)
-//    @Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-//    @Measurement(iterations = 2, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
     public void _100_args_allInTemplate_bigText_scrolling(AllMatched100BigText torender, Blackhole blackhole) {
         blackhole.consume(TemplateRenderers.scrolling(torender.template, torender.values));
     }
 
     @Benchmark
-    @BenchmarkMode({Mode.AverageTime})
-//    @Fork(value = 1, warmups = 2)
-    @OutputTimeUnit(TimeUnit.MICROSECONDS)
-//    @Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-//    @Measurement(iterations = 2, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
     public void _100_args_someInTemplate_bigText_scrolling(LittleMatched100BigText torender, Blackhole blackhole) {
         blackhole.consume(TemplateRenderers.scrolling(torender.template, torender.values));
     }
 
     @Benchmark
-    @BenchmarkMode({Mode.AverageTime})
-//    @Fork(value = 1, warmups = 2)
-    @OutputTimeUnit(TimeUnit.MICROSECONDS)
-//    @Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-//    @Measurement(iterations = 2, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
     public void _10_args_averageCase_bufferedScrolling(AllMatched10AverageText torender, Blackhole blackhole) {
         blackhole.consume(TemplateRenderers.bufferedScrolling(torender.template, torender.values));
     }
 
     @Benchmark
-    @BenchmarkMode({Mode.AverageTime})
-//    @Fork(value = 1, warmups = 2)
-    @OutputTimeUnit(TimeUnit.MICROSECONDS)
-//    @Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-//    @Measurement(iterations = 2, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
     public void _100_args_allInTemplate_bufferedScrolling(AllMatched100 torender, Blackhole blackhole) {
         blackhole.consume(TemplateRenderers.bufferedScrolling(torender.template, torender.values));
     }
 
     @Benchmark
-    @BenchmarkMode({Mode.AverageTime})
-//    @Fork(value = 1, warmups = 2)
-    @OutputTimeUnit(TimeUnit.MICROSECONDS)
-//    @Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-//    @Measurement(iterations = 2, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
     public void _100_args_allInTemplate_bigText_bufferedScrolling(AllMatched100BigText torender, Blackhole blackhole) {
         blackhole.consume(TemplateRenderers.bufferedScrolling(torender.template, torender.values));
     }
 
     @Benchmark
-    @BenchmarkMode({Mode.AverageTime})
-//    @Fork(value = 1, warmups = 2)
-    @OutputTimeUnit(TimeUnit.MICROSECONDS)
-//    @Warmup(iterations = 2, time = 100, timeUnit = TimeUnit.MILLISECONDS)
-//    @Measurement(iterations = 2, time = 1000, timeUnit = TimeUnit.MILLISECONDS)
     public void _100_args_someInTemplate_bigText_bufferedScrolling(LittleMatched100BigText torender, Blackhole blackhole) {
         blackhole.consume(TemplateRenderers.bufferedScrolling(torender.template, torender.values));
     }
 
     public static void main(String[] args) throws Exception {
-        org.openjdk.jmh.Main.main(args);
+        DateTimeFormatter format = new DateTimeFormatterBuilder()
+                .parseCaseInsensitive()
+                .append(DateTimeFormatter.BASIC_ISO_DATE)
+                .appendLiteral('T')
+                .appendValue(ChronoField.HOUR_OF_DAY)
+                .appendValue(ChronoField.MINUTE_OF_HOUR)
+                .appendValue(ChronoField.SECOND_OF_MINUTE)
+                .toFormatter();
+        Path basePath = Paths.get("benchmark-result").toAbsolutePath();
+        Files.createDirectories(basePath);
+        String result = basePath.resolve(LocalDateTime.now().format(format) + ".csv").toString();
+
+        org.openjdk.jmh.runner.options.Options opt = new OptionsBuilder()
+                .include(TemplateRendererBenchmark.class.getSimpleName())
+                .shouldDoGC(true)
+                .resultFormat(ResultFormatType.CSV)
+//                .result("./benchmark-result/" + System.currentTimeMillis() + ".csv")
+                .result(result)
+                .addProfiler(StackProfiler.class)
+                .addProfiler(GCProfiler.class)
+                .jvmArgsAppend("-Djmh.stack.period=1")
+                .warmupIterations(5)
+                .warmupTime(TimeValue.seconds(2L))
+                .measurementIterations(3)
+                .measurementTime(TimeValue.seconds(10L))
+                .timeUnit(TimeUnit.MICROSECONDS)
+                .forks(2)
+                .mode(Mode.AverageTime)
+                .build();
+
+        new Runner(opt).run();
+//        org.openjdk.jmh.Main.main(args);
     }
 }
